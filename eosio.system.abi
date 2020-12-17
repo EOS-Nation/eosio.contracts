@@ -2409,5 +2409,12 @@
   ],
   "error_messages": [],
   "abi_extensions": [],
-  "variants": []
+  "variants": [
+    {
+      "name": "variant_block_signing_authority_v0",
+      "types": [
+        "block_signing_authority_v0"
+      ]
+    }
+  ]
 }
