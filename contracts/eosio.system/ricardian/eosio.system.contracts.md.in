@@ -1,0 +1,892 @@
+<h1 class="contract">activate</h1>
+
+---
+spec_version: "0.2.0"
+title: Activate Protocol Feature
+summary: 'Activate protocol feature {{nowrap feature_digest}}'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} activates the protocol feature with a digest of {{feature_digest}}.
+
+<h1 class="contract">bidname</h1>
+
+---
+spec_version: "0.2.0"
+title: Bid On a Premium Account Name
+summary: '{{nowrap bidder}} bids on the premium account name {{nowrap newname}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+{{bidder}} bids {{bid}} on an auction to own the premium account name {{newname}}.
+
+{{bidder}} transfers {{bid}} to the system to cover the cost of the bid, which will be returned to {{bidder}} only if {{bidder}} is later outbid in the auction for {{newname}} by another account.
+
+If the auction for {{newname}} closes with {{bidder}} remaining as the highest bidder, {{bidder}} will be authorized to create the account with name {{newname}}.
+
+## Bid refund behavior
+
+If {{bidder}}’s bid on {{newname}} is later outbid by another account, {{bidder}} will be able to claim back the transferred amount of {{bid}}. The system will attempt to automatically do this on behalf of {{bidder}}, but the automatic refund may occasionally fail which will then require {{bidder}} to manually claim the refund with the bidrefund action.
+
+## Auction close criteria
+
+The system should automatically close the auction for {{newname}} if it satisfies the condition that over a period of two minutes the following two properties continuously hold:
+
+- no one has bid on {{newname}} within the last 24 hours;
+- and, the value of the latest bid on {{newname}} is greater than the value of the bids on each of the other open auctions.
+
+Be aware that the condition to close the auction described above are sufficient but not necessary. The auction for {{newname}} cannot close unless both of the properties are simultaneously satisfied, but it may be closed without requiring the properties to hold for a period of 2 minutes.
+
+<h1 class="contract">bidrefund</h1>
+
+---
+spec_version: "0.2.0"
+title: Claim Refund on Name Bid
+summary: 'Claim refund on {{nowrap newname}} bid'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+{{bidder}} claims refund on {{newname}} bid after being outbid by someone else.
+
+<h1 class="contract">buyram</h1>
+
+---
+spec_version: "0.2.0"
+title: Buy RAM
+summary: '{{nowrap payer}} buys RAM on behalf of {{nowrap receiver}} by paying {{nowrap quant}}'
+icon: @ICON_BASE_URL@/@RESOURCE_ICON_URI@
+---
+
+{{payer}} buys RAM on behalf of {{receiver}} by paying {{quant}}. This transaction will incur a 0.5% fee out of {{quant}} and the amount of RAM delivered will depend on market rates.
+
+<h1 class="contract">buyrambytes</h1>
+
+---
+spec_version: "0.2.0"
+title: Buy RAM
+summary: '{{nowrap payer}} buys {{nowrap bytes}} bytes of RAM on behalf of {{nowrap receiver}}'
+icon: @ICON_BASE_URL@/@RESOURCE_ICON_URI@
+---
+
+{{payer}} buys approximately {{bytes}} bytes of RAM on behalf of {{receiver}} by paying market rates for RAM. This transaction will incur a 0.5% fee and the cost will depend on market rates.
+
+<h1 class="contract">buyrex</h1>
+
+---
+spec_version: "0.2.0"
+title: Buy REX Tokens
+summary: '{{nowrap from}} buys REX tokens in exchange for {{nowrap amount}} and their vote stake increases by {{nowrap amount}}'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{amount}} is taken out of {{from}}’s REX fund and used to purchase REX tokens at the current market exchange rate. In order for the action to succeed, {{from}} must have voted for a proxy or at least 21 block producers. {{amount}} is added to {{from}}’s vote stake.
+
+A sell order of the purchased amount can only be initiated after waiting for the maturity period of 4 to 5 days to pass. Even then, depending on the market conditions, the initiated sell order may not be executed immediately.
+
+<h1 class="contract">canceldelay</h1>
+
+---
+spec_version: "0.2.0"
+title: Cancel Delayed Transaction
+summary: '{{nowrap canceling_auth.actor}} cancels a delayed transaction'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+{{canceling_auth.actor}} cancels the delayed transaction with id {{trx_id}}.
+
+<h1 class="contract">claimrewards</h1>
+
+---
+spec_version: "0.2.0"
+title: Claim Block Producer Rewards
+summary: '{{nowrap owner}} claims block and vote rewards'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{owner}} claims block and vote rewards from the system.
+
+<h1 class="contract">closerex</h1>
+
+---
+spec_version: "0.2.0"
+title: Cleanup Unused REX Data
+summary: 'Delete REX related DB entries and free associated RAM'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+Delete REX related DB entries and free associated RAM for {{owner}}.
+
+To fully delete all REX related DB entries, {{owner}} must ensure that their REX balance and REX fund amounts are both zero and they have no outstanding loans.
+
+<h1 class="contract">cnclrexorder</h1>
+
+---
+spec_version: "0.2.0"
+title: Cancel Scheduled REX Sell Order
+summary: '{{nowrap owner}} cancels a scheduled sell order if not yet filled'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{owner}} cancels their open sell order.
+
+<h1 class="contract">consolidate</h1>
+
+---
+spec_version: "0.2.0"
+title: Consolidate REX Maturity Buckets Into One
+summary: 'Consolidate REX maturity buckets into one'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+Consolidate REX maturity buckets into one bucket that {{owner}} will not be able to sell until 4 to 5 days later.
+
+<h1 class="contract">defcpuloan</h1>
+
+---
+spec_version: "0.2.0"
+title: Withdraw from the Fund of a Specific CPU Loan
+summary: '{{nowrap from}} transfers {{nowrap amount}} from the fund of CPU loan number {{nowrap loan_num}} back to REX fund'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} transfers {{amount}} from the fund of CPU loan number {{loan_num}} back to REX fund.
+
+<h1 class="contract">defnetloan</h1>
+
+---
+spec_version: "0.2.0"
+title: Withdraw from the Fund of a Specific NET Loan
+summary: '{{nowrap from}} transfers {{nowrap amount}} from the fund of NET loan number {{nowrap loan_num}} back to REX fund'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} transfers {{amount}} from the fund of NET loan number {{loan_num}} back to REX fund.
+
+<h1 class="contract">delegatebw</h1>
+
+---
+spec_version: "0.2.0"
+title: Stake Tokens for NET and/or CPU
+summary: 'Stake tokens for NET and/or CPU and optionally transfer ownership'
+icon: @ICON_BASE_URL@/@RESOURCE_ICON_URI@
+---
+
+{{#if transfer}} {{from}} stakes on behalf of {{receiver}} {{stake_net_quantity}} for NET bandwidth and {{stake_cpu_quantity}} for CPU bandwidth.
+
+Staked tokens will also be transferred to {{receiver}}. The sum of these two quantities will be deducted from {{from}}’s liquid balance and add to the vote weight of {{receiver}}.
+{{else}}
+{{from}} stakes to self and delegates to {{receiver}} {{stake_net_quantity}} for NET bandwidth and {{stake_cpu_quantity}} for CPU bandwidth.
+
+The sum of these two quantities add to the vote weight of {{from}}.
+{{/if}}
+
+<h1 class="contract">deleteauth</h1>
+
+---
+spec_version: "0.2.0"
+title: Delete Account Permission
+summary: 'Delete the {{nowrap permission}} permission of {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+Delete the {{permission}} permission of {{account}}.
+
+<h1 class="contract">deposit</h1>
+
+---
+spec_version: "0.2.0"
+title: Deposit Into REX Fund
+summary: 'Add to {{nowrap owner}}’s REX fund by transferring {{nowrap amount}} from {{nowrap owner}}’s liquid balance'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+Transfer {{amount}} from {{owner}}’s liquid balance to {{owner}}’s REX fund. All proceeds and expenses related to REX are added to or taken out of this fund.
+
+<h1 class="contract">fundcpuloan</h1>
+
+---
+spec_version: "0.2.0"
+title: Deposit into the Fund of a Specific CPU Loan
+summary: '{{nowrap from}} funds a CPU loan'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} transfers {{payment}} from REX fund to the fund of CPU loan number {{loan_num}} in order to be used in loan renewal at expiry. {{from}} can withdraw the total balance of the loan fund at any time.
+
+<h1 class="contract">fundnetloan</h1>
+
+---
+spec_version: "0.2.0"
+title: Deposit into the Fund of a Specific NET Loan
+summary: '{{nowrap from}} funds a NET loan'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} transfers {{payment}} from REX fund to the fund of NET loan number {{loan_num}} in order to be used in loan renewal at expiry. {{from}} can withdraw the total balance of the loan fund at any time.
+
+<h1 class="contract">init</h1>
+
+---
+spec_version: "0.2.0"
+title: Initialize System Contract
+summary: 'Initialize system contract'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+Initialize system contract. The core token symbol will be set to {{core}}.
+
+<h1 class="contract">linkauth</h1>
+
+---
+spec_version: "0.2.0"
+title: Link Action to Permission
+summary: '{{nowrap account}} sets the minimum required permission for the {{#if type}}{{nowrap type}} action of the{{/if}} {{nowrap code}} contract to {{nowrap requirement}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+{{account}} sets the minimum required permission for the {{#if type}}{{type}} action of the{{/if}} {{code}} contract to {{requirement}}.
+
+{{#if type}}{{else}}Any links explicitly associated to specific actions of {{code}} will take precedence.{{/if}}
+
+<h1 class="contract">newaccount</h1>
+
+---
+spec_version: "0.2.0"
+title: Create New Account
+summary: '{{nowrap creator}} creates a new account with the name {{nowrap name}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+{{creator}} creates a new account with the name {{name}} and the following permissions:
+
+owner permission with authority:
+{{to_json owner}}
+
+active permission with authority:
+{{to_json active}}
+
+<h1 class="contract">mvfrsavings</h1>
+
+---
+spec_version: "0.2.0"
+title: Unlock REX Tokens
+summary: '{{nowrap owner}} unlocks REX Tokens'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{owner}} unlocks {{rex}} by moving it out of the REX savings bucket. The unlocked REX tokens cannot be sold until 4 to 5 days later.
+
+<h1 class="contract">mvtosavings</h1>
+
+---
+spec_version: "0.2.0"
+title: Lock REX Tokens
+summary: '{{nowrap owner}} locks REX Tokens'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{owner}} locks {{rex}} by moving it into the REX savings bucket. The locked REX tokens cannot be sold directly and will have to be unlocked explicitly before selling.
+
+<h1 class="contract">refund</h1>
+
+---
+spec_version: "0.2.0"
+title: Claim Unstaked Tokens
+summary: 'Return previously unstaked tokens to {{nowrap owner}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+Return previously unstaked tokens to {{owner}} after the unstaking period has elapsed.
+
+<h1 class="contract">regproducer</h1>
+
+---
+spec_version: "0.2.0"
+title: Register Producer
+summary: 'Register a Block Producer Candidate on the account {{ producer }}'
+icon: @ICON_BASE_URL@/@VOTING_ICON_URI@
+---
+
+### 1. The intent of regproducer
+The intent of the `regproducer` action is to register a block producer candidacy. This contract is considered a governing document as defined by the EOS User Agreement (EUA).
+
+regproducer의 목적
+
+`regproducer` 작업의 목적은 블록생산자 입후보 등록을 하는 것입니다. 이 계약은 EOS 사용자 계약서 (EUA)에 정의된 바와 같이 관리 문서로 간주됩니다.
+
+regproducer 的目的
+
+`regproducer`操作的目的是注册成为出块节点候选者。根据 EOS 用户协议(EUA)的定义，本合约属于治理文本(governing document)
+
+### 2. Nomination
+I, {{ producer }}, hereby nominate myself for consideration as a block producer candidate. This nomination includes agreement to the terms of this contract by my block producer candidate entity, including all of its shareholders, owners, employees, staff, members, and any individual working in official, direct, or affiliated capacity for my Block Producer entity.
+
+지명
+
+나, {{ producer }}는 블록프로듀서 후보로 고려되도록 자신을 지명합니다. 이 지명에는 블록프로듀서회사의 모든 주주, 소유자, 직원, 멤버, 회원 및 공식인원, 직접 또는 계열사에서 일하는 모든 개인을 포함한 블록프로듀서 회사가 계약 조건에 대해 동의함을 인정합니다.
+
+提名
+
+本人，{{ producer }}，特此提名本人为出块节点候选人。本提名包括了本出块节点候选人实体对本合约中所有条款的明确同意，包含其所有者、雇员、员工、成员，以及任何以正式方式、直接或附属方式为本出块节点实体工作的个人。
+
+### 3. Resignation and Removal for Inability to Perform Obligations.
+
+If I, {{ producer }}, am unable to perform any of the obligations stipulated in this contract, I will resign my position by calling the `unregprod` action.
+
+If I, {{ producer }}, fail to resign when unable to perform said obligations, I understand that procedures enumerated in this contract shall be enacted.
+
+의무의 불이행에 대한 사임 및 철회
+
+{{ producer }}가 본 계약서에 명시된 의무를 수행 할 수 없는 경우, 생산자 키를 null 로 함으로써 본인의 지위를 사임합니다.
+
+만약 내가 {{producer}}의 의무를 이행 할 수 없을 때 사임하지 않는다면, 나는 본 계약에 열거된 절차가 집행됨을 동의합니다.
+
+因不能履行义务而退出或被取消出块资格
+
+如果我，{{ producer }}，不能履行本合约中所规定的所有义务，我将使用 `unregprod` 操作来自我退出（resign）。
+
+如果我 {{ producer }}, 在无法履行上述义务时未能退出(resign)，我知晓本合约将会按照所有列举的程序对我实行制裁或处罚程序。
+
+### 4. EOS Accounts
+
+Block Producers may never affect an account on the EOS blockchain, except for the reasons specifically cited in this contract that pertain to Block Producer accounts. User accounts can only be affected on the basis of Article VIII in the EOS User Agreement.
+
+EOS 계정
+
+블록프로듀서는 본 계약에서 해당하는 블록프로듀서의 계정 차단에 관련하여 특별히 언급한 이유를 제외하고는 EOS 블록체인의 계정에 결코 영향을 미치지 않습니다. 사용자 계정은 EOS 사용자 계약서의 8조에 근거할 때만 영향을 받을 수 있습니다.
+
+EOS 账号
+
+出块节点永远不会对 EOS 区块链上的帐户造成影响，除非是本合约中特别提到与出块节点帐户有关的原因。只有基于 EOS用户协议中的第八条的情形下，用户的账号才会受到影响.
+
+### 5. Producer Key
+
+I, {{ producer }}, will sign blocks with {{ producer_key }}
+
+If I, {{ producer }} suspect my key has been compromised I will alert the other Block Producers immediately.
+
+I, {{ producer }}, acknowledge that any and all actions executed with my {{ producer_key }} is my responsibility, regardless of the account being compromised.
+
+프로듀서 키
+
+나, {{ producer }}는 {{ producer _ key }} 로 블록에 서명 할 것입니다.
+만약 내, {{producer}} 가 본인의 키가 손상되었다고 의심되면 즉시 다른 블록프로듀서에게 알려줄 것입니다.
+나, {{producer}}는 EOS 블록체인에서 본인의 블록프로듀서 계정이 실행하는 모든 작업에 대해, 계정 이상 유무와 관련 없이, 책임이 있음을 인정합니다.
+
+出块节点公钥
+
+ 我, {{ producer }}, 将使用 {{ producer_key }} 对区块签名。
+如果我, {{ producer }}, 怀疑我的密钥已被泄露，我将立即通知其他节点。
+我，{{ producer }}，承认我的出块节点帐户在EOS区块链上所执行的任何操作都是我的责任，无论该帐户是否被盗。
+
+### 6. API Endpoints
+
+If I, {{ producer }}, qualify for, and choose to claim rewards due to votes received, and/or blocks produced, I, {{ producer }}, will provide functioning and queryable public P2P and API endpoints to maintain synchronization with the blockchain and submit transactions to be included. API endpoints must be updated to a recent functional version that does not have known security vulnerabilities.
+
+I, {{ producer }}, hereby acknowledge that if I am unable to do so within 30 minutes of being alerted by another block producer candidate, I can be removed by use of the `rmvproducer` action.
+
+API 엔드포인트
+
+만약 내, {{ producer }} 가 투표를 받아 블록 보상을 청구할 수 있는 자격을 얻으면, 나 {{ producer }}는 작동 및 쿼리 가능한 공개 P2P 및 API 엔드포인트를 블록체인과의 동기화 및 트랜잭션을 제출할 수 있게 유지관리합니다. API 엔드포인트는 알려진 보안 취약성이 없는 최신버전으로 업데이트해야 합니다.
+
+나, {{ producer }} 는 다른 block producer candidate 가 경고 ​​한 후, 30분 이내에 바로잡을 수 없다면 `rmvproducer` 조치를 통해 자격이 제거 될 수 있음을 인정합니다.
+
+API 端点
+
+如果我，{{ producer }} 由于得到投票和/或出块的原因，符合领取奖励的条件并选择接受奖励，那么我， {{ producer }}，将提供功能正常的公共 P2P 和 API 端点来维护与区块链的同步，并提交要打包入块的事务。API 端点必须更新到最新的可用版本，并且该版本没有已知的安全漏洞
+
+我，{{producer}}，在此确认，如果我在收到另一个 block producer candidate的警告后30分钟内仍不能符合上述要求，可以使用`rmvproducer`操作移除我的账户。
+
+### 7. Execution time
+
+I, {{ producer }}, will deploy and run network infrastructure capable of maintaining 2ms or less CPU execution times.
+
+I, {{ producer }}, hereby acknowledge that if I am unable to do so within 30 minutes of being alerted by another block producer candidate, I can be removed by use of the `rmvproducer` action.
+
+실행 시간
+
+나, {{ producer }}는 2ms 또는 그 이하의 CPU 실행 시간을 유지할 수 있는 네트워크 인프라를 배포하고 실행합니다.
+
+ 나, {{ producer }} 는 다른 block producer candidate가 경고 ​​한 후, 30분 이내에 바로잡을 수 없다면 `rmvproducer` 조치를 통해 자격이 제거 될 수 있음을 인정합니다.
+
+执行时间
+
+我， {{ producer }}，将部署和运行网络基础设施，能够将 CPU 执行时间维持在 2ms 或更少的水平。
+
+我，{{ producer }}，在此确认，如果我在收到另一个block producer candidate的警告后30分钟内不能符合上述条件，可以使用 `rmvproducer` 操作将我移除。
+
+### 8. Ordering
+I {{ producer }} agree to process transactions on a first-in-first-out (FIFO) basis, and not to manipulate the contents of blocks in order to derive profit from the order in which transactions are included: the hash of the block that is produced.
+
+생산
+나, {{ producer }}는 선입 선출법 (FIFO) 방식으로 거래를 처리하고 거래가 블록의 해시에 포함되는 순서에서 이익을 얻으려는 목적으로 생산하는 블록의 내용을 조작하지 않기로 동의합니다.
+
+顺序
+
+我， {{ producer }} ，同意根据先进先出(FIFO)的方式处理事务，并且绝不会为了牟利而利用区块内容、操纵区块中交易处理的顺序。
+
+### 9. Random Rotation of Standbys
+I, {{ producer }}, agree that if I am in a paid standby position, I can be randomly called into a producing position. Upon failure to produce blocks, code may self-execute penalties regarding future vpay rewards.
+
+유급 대기 블록프로듀서의 무작위 로테이션
+
+나, {{ producer }}는 본인이 유급 대기직에 있을 때, 무작위로 생산직으로 부름 받을 수 있다는 것에 동의합니다. 이때 블록을 생성하지 못하면 코드는 향후 vpay 보상에 대한 처벌을 집행할 수 있습니다.
+
+备选节点随机轮换
+
+我，{{ producer }}，同意若本节点处于有偿备选状态，可被随机调入出块状态。如果我无法出块，合约代码可能会自动执行就未来的 vpay 报酬进行处罚。
+
+### 10. Missing Two or More Rounds of Blocks
+I, {{ producer }}, acknowledge that if after missing 2 or more rounds of blocks in succession I am unable to be contacted within 20 minutes, I, {{ producer }}, acknowledge that I may be removed from a producing position by use of the `rmvproducer` action.
+
+I, {{ producer }}, acknowledge that after missing two or more rounds of blocks in succession, standard practice stipulates removing my producer by using the `unregprod` action until the given issue is resolved.
+
+두 라운드 이상의 블록 누락
+
+나, {{ producer }}는 두 라운드 이상 연속하여 블록을 누락 한 후, 20분 이내에 연락 할 수 없다면 {{ producer }} 가 `rmvproducer` 액션의 사용되어 생산 위치에서 제거 될 수 있음을 인정합니다.
+
+{{ producer }}는 두 라운드 이상으로 블록을 연속적으로 누락한다면, 주어진 문제가 해결 될 때까지 `unregprod` 작업을 사용하여 본인이 생산 위치에서 제거됨이 표준 관행으로 규정되어 있음을 인정합니다.
+
+两轮或更多轮丢块的情形
+
+我，{{ producer }}, 确认如果连续两轮或更多轮丢块且无法在20分钟内联系到我，我，{{ producer }}, 同意可能会用 `rmvproducer` 操作将我移除。
+我，{{ producer }}, 如果连续两轮或更多轮丢块，根据标准实践会发起 `unregprod` 操作将我移除出块资格，直到问题解决。
+
+### 11. Urgent Security Patches
+I, {{ producer }}, acknowledge that if I am not able to be contacted in any form after an urgent security patch is announced, I may be removed by use of the `rmvproducer` action.
+
+긴급 보안 패치
+긴급 보안 패치가 발표 된 후, 어떤 형태로든 연락 할 수 없는 경우 `rmvproducer` 작업을 사용하여 제거 될 수 있음을 나, {{ producer }}는 인정합니다.
+
+紧急安全补丁
+
+我，{{ producer }}，确认如果在紧急安全补丁发布后用任何方式都无法联系到我，可能会用 `rmvproducer` 指令将我移除。
+
+### 12. Disclosure of Entity and Server Information
+I, {{ producer }}, attest that I have disclosed the approximate geolocation for my main production node as being {{ location }}.
+
+법인 및 서버 정보의 공개
+
+나, {{ producer }} 는 주 생산 노드에 대한 위치 정보를 공개했음을 증명합니다.
+
+实体和服务器的信息披露
+
+我，{{ producer }}，确认我已经披露了主出块节点服务器地理位置的准确信息。其地址为 {{ location }}。
+
+### 13. Establishes the penalty and procedure for unwillingness to comply with penalties or procedures
+
+I, {{ producer }}, acknowledge that failing to comply with penalties or procedures enacted against me will result in Block Producers executing the `rmvproducer` contract to remove me.
+
+I, {{ producer }}, will not execute the `regproducer` contract until serving or fulfilling the requirements from a penalty or procedure that results in having the `rmvproducer` contract executed to remove me.
+
+I, {{ producer }}, acknowledge that if I continue to call the `regproducer` action without serving or fulfilling the requirements from breach of `regproducer`, my account keys associated with the registered Block Producer in question may be nulled by Block Producers by using `eosio.wrap`.
+
+페널티를 준수하지 않을 경우 벌칙
+
+나, {{ producer }} 는 나에게 제재된 처벌을 준수하지 않으면 블록프로듀서들이 `rmvproducer` 계약을 집행하게 될 것이라고 인정합니다. 나, {{ producer }} 는 `rmvproducer` 계약이 집행된다면 요구 사항을 충족될 때까지 `regproducer` 계약을 이행하지 않을 것입니다.
+`regproducer` 계약 위반으로 인한 요구 사항을 충족시키지 않고 `regproducer` 계약을 계속 호출하면 해당 블록프로듀서와 관련된 계정 키가 `eosio.wrap` 을 사용하여 블록프로듀서들에 의해 무효화 될 수 있음을 인정합니다.
+
+对不愿遵守处罚的行为予以处罚
+
+我，{{ producer }}，承认若不遵守对本人制裁的处罚，BP 可以实施 `rmvproducer` 合约，我接受投票的资格将被取消。若有针对我实施 `rmvproducer` 合约的情况发生，我, {{ producer }} 在遵守/履行所收到的处罚之前，不会再次执行 `regproducer` 合约。
+
+我，{{ producer }}，在履行惩罚程序的要求之前，不会执行 `regproducer` 合同。我知晓如不履行此程序， `rmvproducer` 合同将会再次将我移除。
+
+我,{{ producer }}, 承认如果没有遵守或履行因违反 `regproducer` 而受到的惩罚要求却继续调用`regproducer`操作，BP 可以调用 `eosio.wrap` 合约将我用来注册出块节点的账号密钥设置为无效值。
+
+<h1 class="contract">regproducer2</h1>
+
+---
+spec_version: "0.2.0"
+title: Register as a Block Producer Candidate
+summary: 'Register {{nowrap producer}} account as a block producer candidate'
+icon: @ICON_BASE_URL@/@VOTING_ICON_URI@
+---
+
+Register {{producer}} account as a block producer candidate.
+
+URL: {{url}}
+Location code: {{location}}
+Block signing authority:
+{{to_json producer_authority}}
+
+## Block Producer Agreement
+{{$clauses.BlockProducerAgreement}}
+
+<h1 class="contract">regproxy</h1>
+
+---
+spec_version: "0.2.0"
+title: Register/unregister as a Proxy
+summary: 'Register/unregister {{nowrap proxy}} as a proxy account'
+icon: @ICON_BASE_URL@/@VOTING_ICON_URI@
+---
+
+{{#if isproxy}}
+{{proxy}} registers as a proxy that can vote on behalf of accounts that appoint it as their proxy.
+{{else}}
+{{proxy}} unregisters as a proxy that can vote on behalf of accounts that appoint it as their proxy.
+{{/if}}
+
+<h1 class="contract">rentcpu</h1>
+
+---
+spec_version: "0.2.0"
+title: Rent CPU Bandwidth for 30 Days
+summary: '{{nowrap from}} pays {{nowrap loan_payment}} to rent CPU bandwidth for {{nowrap receiver}}'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} pays {{loan_payment}} to rent CPU bandwidth on behalf of {{receiver}} for a period of 30 days.
+
+{{loan_payment}} is taken out of {{from}}’s REX fund. The market price determines the number of tokens to be staked to {{receiver}}’s CPU resources. In addition, {{from}} provides {{loan_fund}}, which is also taken out of {{from}}’s REX fund, to be used for automatic renewal of the loan.
+
+At expiration, if the loan has less funds than {{loan_payment}}, it is closed and lent tokens that have been staked are taken out of {{receiver}}’s CPU bandwidth. Otherwise, it is renewed at the market price at the time of renewal, that is, the number of staked tokens is recalculated and {{receiver}}’s CPU bandwidth is updated accordingly. {{from}} can fund or defund a loan at any time before expiration. When the loan is closed, {{from}} is refunded any tokens remaining in the loan fund.
+
+<h1 class="contract">rentnet</h1>
+
+---
+spec_version: "0.2.0"
+title: Rent NET Bandwidth for 30 Days
+summary: '{{nowrap from}} pays {{nowrap loan_payment}} to rent NET bandwidth for {{nowrap receiver}}'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} pays {{loan_payment}} to rent NET bandwidth on behalf of {{receiver}} for a period of 30 days.
+
+{{loan_payment}} is taken out of {{from}}’s REX fund. The market price determines the number of tokens to be staked to {{receiver}}’s NET resources for 30 days. In addition, {{from}} provides {{loan_fund}}, which is also taken out of {{from}}’s REX fund, to be used for automatic renewal of the loan.
+
+At expiration, if the loan has less funds than {{loan_payment}}, it is closed and lent tokens that have been staked are taken out of {{receiver}}’s NET bandwidth. Otherwise, it is renewed at the market price at the time of renewal, that is, the number of staked tokens is recalculated and {{receiver}}’s NET bandwidth is updated accordingly. {{from}} can fund or defund a loan at any time before expiration. When the loan is closed, {{from}} is refunded any tokens remaining in the loan fund.
+
+<h1 class="contract">rexexec</h1>
+
+---
+spec_version: "0.2.0"
+title: Perform REX Maintenance
+summary: 'Process sell orders and expired loans'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+Performs REX maintenance by processing a maximum of {{max}} REX sell orders and expired loans. Any account can execute this action.
+
+<h1 class="contract">rmvproducer</h1>
+
+---
+spec_version: "0.2.0"
+title: Forcibly Unregister a Block Producer Candidate
+summary: '{{nowrap producer}} is unregistered as a block producer candidate'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} unregisters {{producer}} as a block producer candidate. {{producer}} account will retain its votes and those votes can change based on voter stake changes or votes removed from {{producer}}. However new voters will not be able to vote for {{producer}} while it remains unregistered.
+
+<h1 class="contract">sellram</h1>
+
+---
+spec_version: "0.2.0"
+title: Sell RAM From Account
+summary: 'Sell unused RAM from {{nowrap account}}'
+icon: @ICON_BASE_URL@/@RESOURCE_ICON_URI@
+---
+
+Sell {{bytes}} bytes of unused RAM from account {{account}} at market price. This transaction will incur a 0.5% fee on the proceeds which depend on market rates.
+
+<h1 class="contract">sellrex</h1>
+
+---
+spec_version: "0.2.0"
+title: Sell REX Tokens in Exchange for EOS
+summary: '{{nowrap from}} sells {{nowrap rex}} tokens'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from}} initiates a sell order to sell {{rex}} tokens at the market exchange rate during the time at which the order is ultimately executed. If {{from}} already has an open sell order in the sell queue, {{rex}} will be added to the amount of the sell order without change the position of the sell order within the queue. Once the sell order is executed, proceeds are added to {{from}}’s REX fund, the value of sold REX tokens is deducted from {{from}}’s vote stake, and votes are updated accordingly.
+
+Depending on the market conditions, it may not be possible to fill the entire sell order immediately. In such a case, the sell order is added to the back of a sell queue. A sell order at the front of the sell queue will automatically be executed when the market conditions allow for the entire order to be filled. Regardless of the market conditions, the system is designed to execute this sell order within 30 days. {{from}} can cancel the order at any time before it is filled using the cnclrexorder action.
+
+<h1 class="contract">setabi</h1>
+
+---
+spec_version: "0.2.0"
+title: Deploy Contract ABI
+summary: 'Deploy contract ABI on account {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+Deploy the ABI file associated with the contract on account {{account}}.
+
+<h1 class="contract">setacctcpu</h1>
+
+---
+spec_version: "0.2.0"
+title: Explicitly Manage the CPU Quota of Account
+summary: 'Explicitly manage the CPU bandwidth quota of account {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{#if_has_value cpu_weight}}
+Explicitly manage the CPU bandwidth quota of account {{account}} by pinning it to a weight of {{cpu_weight}}.
+
+{{account}} can stake and unstake, however, it will not change their CPU bandwidth quota as long as it remains pinned.
+{{else}}
+Unpin the CPU bandwidth quota of account {{account}}. The CPU bandwidth quota of {{account}} will be driven by the current tokens staked for CPU bandwidth by {{account}}.
+{{/if_has_value}}
+
+<h1 class="contract">setacctnet</h1>
+
+---
+spec_version: "0.2.0"
+title: Explicitly Manage the NET Quota of Account
+summary: 'Explicitly manage the NET bandwidth quota of account {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{#if_has_value net_weight}}
+Explicitly manage the network bandwidth quota of account {{account}} by pinning it to a weight of {{net_weight}}.
+
+{{account}} can stake and unstake, however, it will not change their NET bandwidth quota as long as it remains pinned.
+{{else}}
+Unpin the NET bandwidth quota of account {{account}}. The NET bandwidth quota of {{account}} will be driven by the current tokens staked for NET bandwidth by {{account}}.
+{{/if_has_value}}
+
+<h1 class="contract">setacctram</h1>
+
+---
+spec_version: "0.2.0"
+title: Explicitly Manage the RAM Quota of Account
+summary: 'Explicitly manage the RAM quota of account {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{#if_has_value ram_bytes}}
+Explicitly manage the RAM quota of account {{account}} by pinning it to {{ram_bytes}} bytes.
+
+{{account}} can buy and sell RAM, however, it will not change their RAM quota as long as it remains pinned.
+{{else}}
+Unpin the RAM quota of account {{account}}. The RAM quota of {{account}} will be driven by the current RAM holdings of {{account}}.
+{{/if_has_value}}
+
+<h1 class="contract">setalimits</h1>
+
+---
+spec_version: "0.2.0"
+title: Adjust Resource Limits of Account
+summary: 'Adjust resource limits of account {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} updates {{account}}’s resource limits to have a RAM quota of {{ram_bytes}} bytes, a NET bandwidth quota of {{net_weight}} and a CPU bandwidth quota of {{cpu_weight}}.
+
+<h1 class="contract">setcode</h1>
+
+---
+spec_version: "0.2.0"
+title: Deploy Contract Code
+summary: 'Deploy contract code on account {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+Deploy compiled contract code to the account {{account}}.
+
+<h1 class="contract">setparams</h1>
+
+---
+spec_version: "0.2.0"
+title: Set System Parameters
+summary: 'Set System Parameters'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} sets system parameters to:
+{{to_json params}}
+
+<h1 class="contract">setpriv</h1>
+
+---
+spec_version: "0.2.0"
+title: Make an Account Privileged or Unprivileged
+summary: '{{#if is_priv}}Make {{nowrap account}} privileged{{else}}Remove privileged status of {{nowrap account}}{{/if}}'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{#if is_priv}}
+{{$action.account}} makes {{account}} privileged.
+{{else}}
+{{$action.account}} removes privileged status of {{account}}.
+{{/if}}
+
+<h1 class="contract">setram</h1>
+
+---
+spec_version: "0.2.0"
+title: Configure the Available RAM
+summary: 'Configure the available RAM'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} configures the available RAM to {{max_ram_size}} bytes.
+
+<h1 class="contract">setramrate</h1>
+
+---
+spec_version: "0.2.0"
+title: Set the Rate of Increase of RAM
+summary: 'Set the rate of increase of RAM per block'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} sets the rate of increase of RAM to {{bytes_per_block}} bytes/block.
+
+<h1 class="contract">setrex</h1>
+
+---
+spec_version: "0.2.0"
+title: Adjust REX Pool Virtual Balance
+summary: 'Adjust REX Pool Virtual Balance'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} adjusts REX loan rate by setting REX pool virtual balance to {{balance}}. No token transfer or issue is executed in this action.
+
+<h1 class="contract">setinflation</h1>
+
+---
+spec_version: "0.2.0"
+title: Set Inflation Parameters
+summary: 'Set inflation parameters'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} sets the inflation parameters as follows:
+
+* Annual inflation rate (in units of a hundredth of a percent): {{annual_rate}}
+* Fraction of inflation used to reward block producers: 10000/{{inflation_pay_factor}}
+* Fraction of block producer rewards to be distributed proportional to blocks produced: 10000/{{votepay_factor}}
+
+<h1 class="contract">undelegatebw</h1>
+
+---
+spec_version: "0.2.0"
+title: Unstake Tokens for NET and/or CPU
+summary: 'Unstake tokens for NET and/or CPU from {{nowrap receiver}}'
+icon: @ICON_BASE_URL@/@RESOURCE_ICON_URI@
+---
+
+{{from}} unstakes from {{receiver}} {{unstake_net_quantity}} for NET bandwidth and {{unstake_cpu_quantity}} for CPU bandwidth.
+
+The sum of these two quantities will be removed from the vote weight of {{receiver}} and will be made available to {{from}} after an uninterrupted 3 day period without further unstaking by {{from}}. After the uninterrupted 3 day period passes, the system will attempt to automatically return the funds to {{from}}’s regular token balance. However, this automatic refund may occasionally fail which will then require {{from}} to manually claim the funds with the refund action.
+
+<h1 class="contract">unlinkauth</h1>
+
+---
+spec_version: "0.2.0"
+title: Unlink Action from Permission
+summary: '{{nowrap account}} unsets the minimum required permission for the {{#if type}}{{nowrap type}} action of the{{/if}} {{nowrap code}} contract'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+{{account}} removes the association between the {{#if type}}{{type}} action of the{{/if}} {{code}} contract and its minimum required permission.
+
+{{#if type}}{{else}}This will not remove any links explicitly associated to specific actions of {{code}}.{{/if}}
+
+<h1 class="contract">unregprod</h1>
+
+---
+spec_version: "0.2.0"
+title: Unregister as a Block Producer Candidate
+summary: '{{nowrap producer}} unregisters as a block producer candidate'
+icon: @ICON_BASE_URL@/@VOTING_ICON_URI@
+---
+
+{{producer}} unregisters as a block producer candidate. {{producer}} account will retain its votes and those votes can change based on voter stake changes or votes removed from {{producer}}. However new voters will not be able to vote for {{producer}} while it remains unregistered.
+
+<h1 class="contract">unstaketorex</h1>
+
+---
+spec_version: "0.2.0"
+title: Buy REX Tokens Using Staked Tokens
+summary: '{{nowrap owner}} buys REX tokens in exchange for tokens currently staked to NET and/or CPU'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+{{from_net}} and {{from_cpu}} are withdrawn from {{receiver}}’s NET and CPU bandwidths respectively. These funds are used to purchase REX tokens at the current market exchange rate. In order for the action to succeed, {{owner}} must have voted for a proxy or at least 21 block producers.
+
+A sell order of the purchased amount can only be initiated after waiting for the maturity period of 4 to 5 days to pass. Even then, depending on the market conditions, the initiated sell order may not be executed immediately.
+
+<h1 class="contract">updateauth</h1>
+
+---
+spec_version: "0.2.0"
+title: Modify Account Permission
+summary: 'Add or update the {{nowrap permission}} permission of {{nowrap account}}'
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
+---
+
+Modify, and create if necessary, the {{permission}} permission of {{account}} to have a parent permission of {{parent}} and the following authority:
+{{to_json auth}}
+
+<h1 class="contract">updaterex</h1>
+
+---
+spec_version: "0.2.0"
+title: Update REX Owner Vote Weight
+summary: 'Update vote weight to current value of held REX tokens'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+Update vote weight of {{owner}} account to current value of held REX tokens.
+
+<h1 class="contract">updtrevision</h1>
+
+---
+spec_version: "0.2.0"
+title: Update System Contract Revision Number
+summary: 'Update system contract revision number'
+icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
+---
+
+{{$action.account}} advances the system contract revision number to {{revision}}.
+
+<h1 class="contract">voteproducer</h1>
+
+---
+spec_version: "0.2.0"
+title: Vote for Block Producers
+summary: '{{nowrap voter}} votes for {{#if proxy}}the proxy {{nowrap proxy}}{{else}}up to 30 block producer candidates{{/if}}'
+icon: @ICON_BASE_URL@/@VOTING_ICON_URI@
+---
+
+{{#if proxy}}
+{{voter}} votes for the proxy {{proxy}}.
+At the time of voting the full weight of voter’s staked (CPU + NET) tokens will be cast towards each of the producers voted by {{proxy}}.
+{{else}}
+{{voter}} votes for the following block producer candidates:
+
+{{#each producers}}
+  + {{this}}
+{{/each}}
+
+At the time of voting the full weight of voter’s staked (CPU + NET) tokens will be cast towards each of the above producers.
+{{/if}}
+
+<h1 class="contract">withdraw</h1>
+
+---
+spec_version: "0.2.0"
+title: Withdraw from REX Fund
+summary: 'Withdraw {{nowrap amount}} from {{nowrap owner}}’s REX fund by transferring to {{owner}}’s liquid balance'
+icon: @ICON_BASE_URL@/@REX_ICON_URI@
+---
+
+Withdraws {{amount}} from {{owner}}’s REX fund and transfer them to {{owner}}’s liquid balance.
+
+<h1 class="contract">rentbw</h1>
+
+---
+spec_version: "0.2.0"
+title: Rent resources
+summary: 'User may rent resources'
+icon: @ICON_BASE_URL@/@RESOURCE_ICON_URI@
+---
+
+Users may use the rentbw action to rent resources.
