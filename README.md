@@ -1,4 +1,6 @@
-# New Resource System (`rentbw`)
+# eosio.contracts
+
+## Version : 1.9.2
 
 ## Resources
 
@@ -11,9 +13,7 @@
 
 ## Checksum
 
-Branch `1.9.2` (last commit `d7bc0a5`)
-
-https://github.com/EOSIO/eosio.contracts/tree/v1.9.2
+- [Branch `1.9.2` (last commit `d7bc0a5`)](https://github.com/EOSIO/eosio.contracts/tree/v1.9.2)
 
 ```bash
 $ shasum -a 256 eosio.system.wasm
