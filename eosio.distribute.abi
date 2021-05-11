@@ -1,94 +1,94 @@
 {
-    "version": "eosio::abi/1.1",
-    "types": [],
-    "structs": [
+  "version": "eosio::abi/1.1",
+  "types": [],
+  "structs": [
+    {
+      "name": "claimdistrib",
+      "base": "",
+      "fields": [
         {
-            "name": "claimdistrib",
-            "base": "",
-            "fields": [
-                {
-                    "name": "claimer",
-                    "type": "name"
-                }
-            ]
-        },
-        {
-            "name": "distrib_state",
-            "base": "",
-            "fields": [
-                {
-                    "name": "accounts",
-                    "type": "distribute_account[]"
-                }
-            ]
-        },
-        {
-            "name": "distribute_account",
-            "base": "",
-            "fields": [
-                {
-                    "name": "account",
-                    "type": "name"
-                },
-                {
-                    "name": "percent",
-                    "type": "uint16"
-                }
-            ]
-        },
-        {
-            "name": "distribute_claimer",
-            "base": "",
-            "fields": [
-                {
-                    "name": "account",
-                    "type": "name"
-                },
-                {
-                    "name": "balance",
-                    "type": "asset"
-                }
-            ]
-        },
-        {
-            "name": "setdistrib",
-            "base": "",
-            "fields": [
-                {
-                    "name": "accounts",
-                    "type": "distribute_account[]"
-                }
-            ]
+          "name": "claimer",
+          "type": "name"
         }
-    ],
-    "actions": [
+      ]
+    },
+    {
+      "name": "distrib_state",
+      "base": "",
+      "fields": [
         {
-            "name": "claimdistrib",
-            "type": "claimdistrib",
-            "ricardian_contract": ""
+          "name": "accounts",
+          "type": "distribute_account[]"
+        }
+      ]
+    },
+    {
+      "name": "distribute_account",
+      "base": "",
+      "fields": [
+        {
+          "name": "account",
+          "type": "name"
         },
         {
-            "name": "setdistrib",
-            "type": "setdistrib",
-            "ricardian_contract": ""
+          "name": "percent",
+          "type": "uint16"
         }
-    ],
-    "tables": [
+      ]
+    },
+    {
+      "name": "distribute_claimer",
+      "base": "",
+      "fields": [
         {
-            "name": "claimers",
-            "type": "distribute_claimer",
-            "index_type": "i64",
-            "key_names": [],
-            "key_types": []
+          "name": "account",
+          "type": "name"
         },
         {
-            "name": "state",
-            "type": "distrib_state",
-            "index_type": "i64",
-            "key_names": [],
-            "key_types": []
+          "name": "balance",
+          "type": "asset"
         }
-    ],
-    "ricardian_clauses": [],
-    "variants": []
+      ]
+    },
+    {
+      "name": "setdistrib",
+      "base": "",
+      "fields": [
+        {
+          "name": "accounts",
+          "type": "distribute_account[]"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "claimdistrib",
+      "type": "claimdistrib",
+      "ricardian_contract": ""
+    },
+    {
+      "name": "setdistrib",
+      "type": "setdistrib",
+      "ricardian_contract": ""
+    }
+  ],
+  "tables": [
+    {
+      "name": "claimers",
+      "type": "distribute_claimer",
+      "index_type": "i64",
+      "key_names": [],
+      "key_types": []
+    },
+    {
+      "name": "state",
+      "type": "distrib_state",
+      "index_type": "i64",
+      "key_names": [],
+      "key_types": []
+    }
+  ],
+  "ricardian_clauses": [],
+  "variants": []
 }
