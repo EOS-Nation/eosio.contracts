@@ -23,7 +23,6 @@
 // channeled to REX pool. In order to stop these proceeds from being channeled, the macro must
 // be set to 0.
 #define CHANNEL_RAM_AND_NAMEBID_FEES_TO_REX 1
-#define USE_INFLATION_DISTRIBUTE 1
 
 namespace eosiosystem {
 
