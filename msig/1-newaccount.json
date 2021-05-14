@@ -1,4 +1,11 @@
-{
+{"chain_id":"8a34ec7df1b8cd06ff4a8abbaa7cc50300823350cadc59ab296cb00d104d2b8f",
+  "expiration": "2021-05-14T11:16:50",
+  "ref_block_num": 1261,
+  "ref_block_prefix": 2938642787,
+  "max_net_usage_words": 0,
+  "max_cpu_usage_ms": 0,
+  "delay_sec": 0,
+  "context_free_actions": [],
   "actions": [
     {
       "account": "eosio",
@@ -13,6 +20,17 @@
     },
     {
       "account": "eosio",
+      "name": "delegatebw",
+      "authorization": [
+        {
+          "actor": "eosio",
+          "permission": "active"
+        }
+      ],
+      "data": "0000000000ea30550040c62e01ea3055102700000000000004454f5300000000000000000000000004454f530000000000"
+    },
+    {
+      "account": "eosio",
       "name": "buyrambytes",
       "authorization": [
         {
@@ -22,5 +40,8 @@
       ],
       "data": "0000000000ea30550040c62e01ea305500b00400"
     }
-  ]
+  ],
+  "transaction_extensions": [],
+  "signatures": [],
+  "context_free_data": []
 }

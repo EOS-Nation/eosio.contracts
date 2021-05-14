@@ -14,6 +14,17 @@
     },
     {
       "account": "eosio",
+      "name": "delegatebw",
+      "authorization": [
+        {
+          "actor": "eosio",
+          "permission": "active"
+        }
+      ],
+      "data": "0000000000ea30550040c62e01ea3055102700000000000004454f5300000000000000000000000004454f530000000000"
+    },
+    {
+      "account": "eosio",
       "name": "buyrambytes",
       "authorization": [
         {
