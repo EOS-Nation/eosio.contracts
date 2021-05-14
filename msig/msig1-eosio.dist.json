@@ -1,0 +1,30 @@
+{
+  "expiration": "2022-01-01T00:00:00",
+  "actions": [
+    {
+      "account": "eosio",
+      "name": "newaccount",
+      "authorization": [
+        {
+          "actor": "eosio",
+          "permission": "active"
+        }
+      ],
+      "data": "0000000000ea30550040c62e01ea30550100000000010000000000ea305500000000a8ed32320100000100000000020000000000ea305500000000a8ed323201000040c62e01ea305500804a1401ea3055010000"
+    },
+    {
+      "account": "eosio",
+      "name": "buyrambytes",
+      "authorization": [
+        {
+          "actor": "eosio",
+          "permission": "active"
+        }
+      ],
+      "data": "0000000000ea30550040c62e01ea305500b00400"
+    }
+  ],
+  "transaction_extensions": [],
+  "signatures": [],
+  "context_free_data": []
+}

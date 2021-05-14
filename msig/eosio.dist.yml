@@ -1,0 +1,18 @@
+owner:
+  threshold: 1
+  accounts:
+  - permission:
+      actor: eosio
+      permission: active
+    weight: 1
+active:
+  threshold: 1
+  accounts:
+  - permission:
+      actor: eosio
+      permission: active
+    weight: 1
+  - permission:
+      actor: eosio.dist
+      permission: eosio.code
+    weight: 1

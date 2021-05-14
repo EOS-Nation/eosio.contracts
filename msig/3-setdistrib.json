@@ -1,0 +1,13 @@
+{
+  "actions": [{
+      "account": "eosio.dist",
+      "name": "setdistrib",
+      "authorization": [{
+          "actor": "eosio.dist",
+          "permission": "active"
+        }
+      ],
+      "data": "010000e8ea02ea30551027"
+    }
+  ]
+}
