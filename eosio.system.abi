@@ -466,6 +466,24 @@
       ]
     },
     {
+      "name": "donatetorex",
+      "base": "",
+      "fields": [
+        {
+          "name": "from",
+          "type": "name"
+        },
+        {
+          "name": "amount",
+          "type": "asset"
+        },
+        {
+          "name": "memo",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "eosio_global_state",
       "base": "blockchain_parameters",
       "fields": [
@@ -2015,6 +2033,11 @@
       "name": "deposit",
       "type": "deposit",
       "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Deposit Into REX Fund\nsummary: 'Add to {{nowrap owner}}’s REX fund by transferring {{nowrap amount}} from {{nowrap owner}}’s liquid balance'\nicon: https://raw.githubusercontent.com/EOS-Nation/eosio.contracts/master/contracts/icons/rex.png#d229837fa62a464b9c71e06060aa86179adf0b3f4e3b8c4f9702f4f4b0c340a8\n---\n\nTransfer {{amount}} from {{owner}}’s liquid balance to {{owner}}’s REX fund. All proceeds and expenses related to REX are added to or taken out of this fund."
+    },
+    {
+      "name": "donatetorex",
+      "type": "donatetorex",
+      "ricardian_contract": ""
     },
     {
       "name": "fundcpuloan",

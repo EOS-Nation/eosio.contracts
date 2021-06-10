@@ -1,0 +1,15 @@
+{
+  "expiration": "2022-01-01T00:00:00",
+  "actions": [
+    {
+      "account": "eosio",
+      "name": "setinflation",
+      "authorization": [{
+          "actor": "eosio",
+          "permission": "active"
+        }
+      ],
+      "data": "7c010000000000007094000000000000409c000000000000"
+    }
+  ]
+}
