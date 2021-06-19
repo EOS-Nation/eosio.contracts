@@ -1,0 +1,29 @@
+Proposer: eosnationftw
+Proposal name: claimdistrib
+
+
+---------------------------------------------------------------------
+----------------------- TRANSACTION HEADER --------------------------
+---------------------------------------------------------------------
+
+Expiration: 2022-01-01 00:00:00 +0000 UTC (in 4686h44m46.235249s, analysis time: 2021-06-19 17:15:13.764751 +0000 UTC)
+Expiration: 2022-01-01 00:00:00 +0000 UTC
+Reference block number: 0
+Reference block prefix: 0
+Maximum net usage words (of 8 bytes, 0 = unlimited): 0
+Maximum CPU usage in milliseconds (0 = unlimited): 0
+Number of seconds to delay transaction (cancellable during that time): 0
+
+---------------------------------------------------------------------
+------------------------------ ACTIONS ------------------------------
+---------------------------------------------------------------------
+
+Context-free actions: 0
+
+Actions: 1
+1. Action eosio.dist::claimdistrib, authorized by: eosio.saving@active
+Couldn't decode ABI: Internal Service Error: No ABI found: No ABI found for eosio.dist
+Hex data: c0a6db0603ea3055
+Data:
+null
+
