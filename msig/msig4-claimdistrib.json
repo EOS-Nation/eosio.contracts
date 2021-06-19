@@ -1,0 +1,15 @@
+{
+  "expiration": "2022-01-01T00:00:00",
+  "actions": [
+    {
+      "account": "eosio.dist",
+      "name": "claimdistrib",
+      "authorization": [{
+          "actor": "eosio.saving",
+          "permission": "active"
+        }
+      ],
+      "data": "c0a6db0603ea3055"
+    }
+  ]
+}
