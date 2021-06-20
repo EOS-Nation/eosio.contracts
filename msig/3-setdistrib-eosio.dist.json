@@ -3,13 +3,14 @@
   "actions": [
     {
       "account": "eosio.dist",
-      "name": "claimdistrib",
-      "authorization": [{
-          "actor": "eosio.saving",
+      "name": "setdistrib",
+      "authorization": [
+        {
+          "actor": "eosio.dist",
           "permission": "active"
         }
       ],
-      "data": "c0a6db0603ea3055"
+      "data": "020000e8ea02ea3055b80bc0a6db0603ea3055581b"
     }
   ]
 }
