@@ -6,6 +6,10 @@
       "name": "setcode",
       "authorization": [
         {
+          "actor": "eosio",
+          "permission": "active"
+        },
+        {
           "actor": "eosio.dist",
           "permission": "active"
         }
@@ -16,6 +20,10 @@
       "account": "eosio",
       "name": "setabi",
       "authorization": [
+        {
+          "actor": "eosio",
+          "permission": "active"
+        },
         {
           "actor": "eosio.dist",
           "permission": "active"

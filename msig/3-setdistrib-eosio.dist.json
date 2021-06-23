@@ -6,6 +6,10 @@
       "name": "setdistrib",
       "authorization": [
         {
+          "actor": "eosio",
+          "permission": "active"
+        },
+        {
           "actor": "eosio.dist",
           "permission": "active"
         }
