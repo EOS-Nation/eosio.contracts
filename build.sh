@@ -13,10 +13,9 @@ function usage() {
 }
 
 BUILD_TESTS=false
-USE_DISTRIBUTE=false
 
 if [ $# -ne 0 ]; then
-  while getopts "e:c:tyhd" opt; do
+  while getopts "e:c:tyh" opt; do
     case "${opt}" in
       e )
         EOSIO_DIR_PROMPT=$OPTARG
@@ -30,9 +29,6 @@ if [ $# -ne 0 ]; then
       y )
         NONINTERACTIVE=true
         PROCEED=true
-      ;;
-      d )
-        USE_DISTRIBUTE=true
       ;;
       h )
         usage
@@ -83,6 +79,6 @@ NC='\033[0m'
 CPU_CORES=$(getconf _NPROCESSORS_ONLN)
 mkdir -p build
 pushd build &> /dev/null
-cmake -DBUILD_TESTS=${BUILD_TESTS} -DUSE_INFLATION_DISTRIBUTE=${USE_DISTRIBUTE} ../
+cmake -DBUILD_TESTS=${BUILD_TESTS} ../
 make -j $CPU_CORES
 popd &> /dev/null

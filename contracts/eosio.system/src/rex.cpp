@@ -86,9 +86,9 @@ namespace eosiosystem {
          transfer_act.send( stake_account, rex_account, payment, "buy REX with staked tokens" );
       }
       const asset rex_received = add_to_rex_pool( payment );
-      add_to_rex_balance( owner, payment, rex_received );
+      auto rex_stake_delta = add_to_rex_balance( owner, payment, rex_received );
       runrex(2);
-      update_rex_account( owner, asset( 0, core_symbol() ), asset( 0, core_symbol() ), true );
+      update_rex_account( owner, asset( 0, core_symbol() ), rex_stake_delta - payment, true );
       // dummy action added so that amount of REX tokens purchased shows up in action trace
       rex_results::buyresult_action buyrex_act( rex_account, std::vector<eosio::permission_level>{ } );
       buyrex_act.send( rex_received );
@@ -212,9 +212,9 @@ namespace eosiosystem {
       auto itr = _rexbalance.require_find( owner.value, "account has no REX balance" );
       const asset init_stake = itr->vote_stake;
 
-      auto rexp_itr = _rexpool.begin();
-      const int64_t total_rex      = rexp_itr->total_rex.amount;
-      const int64_t total_lendable = rexp_itr->total_lendable.amount;
+      auto rexpool_itr = _rexpool.begin();
+      const int64_t total_rex      = rexpool_itr->total_rex.amount;
+      const int64_t total_lendable = rexpool_itr->total_lendable.amount;
       const int64_t rex_balance    = itr->rex_balance.amount;
 
       asset current_stake( 0, core_symbol() );
@@ -275,17 +275,17 @@ namespace eosiosystem {
       _rexbalance.modify( bitr, same_payer, [&]( auto& rb ) {
          int64_t moved_rex = 0;
          while ( !rb.rex_maturities.empty() && moved_rex < rex.amount) {
-            const int64_t drex = std::min( rex.amount - moved_rex, rb.rex_maturities.back().second );
-            rb.rex_maturities.back().second -= drex;
-            moved_rex                       += drex;
+            const int64_t d_rex = std::min( rex.amount - moved_rex, rb.rex_maturities.back().second );
+            rb.rex_maturities.back().second -= d_rex;
+            moved_rex                       += d_rex;
             if ( rb.rex_maturities.back().second == 0 ) {
                rb.rex_maturities.pop_back();
             }
          }
          if ( moved_rex < rex.amount ) {
-            const int64_t drex = rex.amount - moved_rex;
-            rb.matured_rex    -= drex;
-            moved_rex         += drex;
+            const int64_t d_rex = rex.amount - moved_rex;
+            rb.matured_rex    -= d_rex;
+            moved_rex         += d_rex;
             check( rex_in_sell_order.amount <= rb.matured_rex, "logic error in mvtosavings" );
          }
          check( moved_rex == rex.amount, "programmer error in mvtosavings" );
@@ -350,16 +350,6 @@ namespace eosiosystem {
             check( rex_itr->rex_balance.amount == 0, "account has remaining REX balance, must sell first");
             _rexbalance.erase( rex_itr );
          }
-      }
-   }
-
-   void system_contract::donatetorex(const name& from, const asset& amount, const std::string& memo) {
-      require_auth(from);
-
-      check( amount.symbol == core_symbol(), "must deposit core token" );
-      check( rex_available(), "REX must be enabled" );
-      if(amount.amount > 0) {
-         channel_to_rex(from, amount, true, memo);
       }
    }
 
@@ -781,9 +771,9 @@ namespace eosiosystem {
     */
    rex_order_outcome system_contract::fill_rex_order( const rex_balance_table::const_iterator& bitr, const asset& rex )
    {
-      auto rexitr = _rexpool.begin();
-      const int64_t S0 = rexitr->total_lendable.amount;
-      const int64_t R0 = rexitr->total_rex.amount;
+      auto rexpool_itr = _rexpool.begin();
+      const int64_t S0 = rexpool_itr->total_lendable.amount;
+      const int64_t R0 = rexpool_itr->total_rex.amount;
       const int64_t p  = (uint128_t(rex.amount) * S0) / R0;
       const int64_t R1 = R0 - rex.amount;
       const int64_t S1 = S0 - p;
@@ -791,12 +781,12 @@ namespace eosiosystem {
       asset stake_change( 0, core_symbol() );
       bool  success = false;
 
-      const int64_t unlent_lower_bound = rexitr->total_lent.amount / 10;
-      const int64_t available_unlent   = rexitr->total_unlent.amount - unlent_lower_bound; // available_unlent <= 0 is possible
+      const int64_t unlent_lower_bound = rexpool_itr->total_lent.amount / 10;
+      const int64_t available_unlent   = rexpool_itr->total_unlent.amount - unlent_lower_bound; // available_unlent <= 0 is possible
       if ( proceeds.amount <= available_unlent ) {
          const int64_t init_vote_stake_amount = bitr->vote_stake.amount;
          const int64_t current_stake_value    = ( uint128_t(bitr->rex_balance.amount) * S0 ) / R0;
-         _rexpool.modify( rexitr, same_payer, [&]( auto& rt ) {
+         _rexpool.modify( rexpool_itr, same_payer, [&]( auto& rt ) {
             rt.total_rex.amount      = R1;
             rt.total_lendable.amount = S1;
             rt.total_unlent.amount   = rt.total_lendable.amount - rt.total_lent.amount;
@@ -848,7 +838,7 @@ namespace eosiosystem {
     * @pre - owner REX fund has sufficient balance
     *
     * @param owner - owner account name
-    * @param amount - tokens to be transfered out of REX fund
+    * @param amount - tokens to be transferred out of REX fund
     */
    void system_contract::transfer_from_fund( const name& owner, const asset& amount )
    {
@@ -864,7 +854,7 @@ namespace eosiosystem {
     * @brief Transfers tokens to owner REX fund
     *
     * @param owner - owner account name
-    * @param amount - tokens to be transfered to REX fund
+    * @param amount - tokens to be transferred to REX fund
     */
    void system_contract::transfer_to_fund( const name& owner, const asset& amount )
    {
@@ -886,12 +876,12 @@ namespace eosiosystem {
     * @brief Processes owner filled sellrex order and updates vote weight
     *
     * Checks if user has a scheduled sellrex order that has been filled, completes its processing,
-    * and deletes it. Processing entails transfering proceeds to user REX fund and updating user
+    * and deletes it. Processing entails transferring proceeds to user REX fund and updating user
     * vote weight. Additional proceeds and stake change can be passed as arguments. This function
     * is called only by actions pushed by owner.
     *
     * @param owner - owner account name
-    * @param proceeds - additional proceeds to be transfered to owner REX fund
+    * @param proceeds - additional proceeds to be transferred to owner REX fund
     * @param delta_stake - additional stake to be added to owner vote weight
     * @param force_vote_update - if true, vote weight is updated even if vote stake didn't change
     *
@@ -924,32 +914,27 @@ namespace eosiosystem {
    /**
     * @brief Channels system fees to REX pool
     *
-    * @param from - account from which asset is transfered to REX pool
-    * @param amount - amount of tokens to be transfered
+    * @param from - account from which asset is transferred to REX pool
+    * @param amount - amount of tokens to be transferred
     * @param required - if true, asserts when the system is not configured to channel fees into REX
     */
-
-   void system_contract::channel_to_rex( const name& from, const asset& amount, bool required, const std::string& memo )
+   void system_contract::channel_to_rex( const name& from, const asset& amount, bool required )
    {
 #if CHANNEL_RAM_AND_NAMEBID_FEES_TO_REX
       if ( rex_available() ) {
          add_to_rex_return_pool( amount );
          // inline transfer to rex_account
          token::transfer_action transfer_act{ token_account, { from, active_permission } };
-         transfer_act.send( from, rex_account, amount, memo);
+         transfer_act.send( from, rex_account, amount,
+                            std::string("transfer from ") + from.to_string() + " to eosio.rex" );
          return;
       }
 #endif
       eosio::check( !required, "can't channel fees to rex" );
    }
 
-   void system_contract::channel_to_rex ( const name& from, const asset& amount, bool required ) 
-   {
-      channel_to_rex(from, amount, required, std::string("transfer from ") + from.to_string() + " to eosio.rex");
-   }
-
    /**
-    * @brief Updates namebid proceeds to be transfered to REX pool
+    * @brief Updates namebid proceeds to be transferred to REX pool
     *
     * @param highest_bid - highest bidding amount of closed namebid
     */

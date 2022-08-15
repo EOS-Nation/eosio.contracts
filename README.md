@@ -1,10 +1,10 @@
 # eosio.contracts
 
-## Version : 1.9.2
+## Version : 3.1.0-rc1
 
 ## Resources
 
-- `v1.9.2` release candidate: https://github.com/EOSIO/eosio.contracts/releases/tag/v1.9.2
+- `v3.1.0-rc1` release candidate: https://github.com/eosnetworkfoundation/mandel-contracts/tree/v3.1.0-rc1
 
 ## Amendments
 
@@ -13,12 +13,12 @@
 
 ## SHA256 Checksum
 
-- [Branch `1.9.2` (last commit `d7bc0a5`)](https://github.com/EOSIO/eosio.contracts/tree/v1.9.2)
+- [Branch `3.1.0-rc1` (last commit `02fe258`)](https://github.com/eosnetworkfoundation/mandel-contracts/tree/v3.1.0-rc1)
 
 ```bash
-$ eosio-cpp --version
-eosio-cpp version 1.7.0
+$ cdt-cpp --version
+cdt-cpp version 3.0.0-rc1
 
 $ shasum -a 256 eosio.system.wasm
-1128f4925913133bacac30a6d0d634030555ee8f17f08bcea147fd83132bd64b  eosio.system.wasm
+??  eosio.system.wasm
 ```
