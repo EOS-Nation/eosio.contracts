@@ -1,8 +1,8 @@
 # EOS System Contracts
 
-## Release Candidate `v3.1.0`
+## Release Candidate `v3.1.0-rc2`
 
-- [Branch `release/3.1` (last commit `a6480e0`)](https://github.com/eosnetworkfoundation/eos-system-contracts/tree/release/3.1)
+- [Branch `release/3.1` (last commit `69b30f7`)](https://github.com/eosnetworkfoundation/eos-system-contracts/tree/release/3.1)
 
 ## Amendments
 
@@ -26,9 +26,14 @@ $ cdt-cpp --version
 cdt-cpp version 3.0.0-rc2
 ```
 
+**Build**
+```bash
+$ ./build.sh
+```
+
 ## SHA256 Checksum
 
 ```bash
 $ shasum -a 256 eosio.system.wasm
-ff57553f6cb28b6239198ccf1b4c033568ec641b223c8ed6ce9b34b74925807f  eosio.system.wasm
+17878660dbec4ed4ebc9cd5defd5e0f0242c0f33658274069fb6a8cbae4fe9c8  eosio.system.wasm
 ```
