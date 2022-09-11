@@ -30,6 +30,8 @@ cdt-cpp version 3.0.0
 **Build**
 
 ```bash
+$ git clone https://github.com/eosnetworkfoundation/eos-system-contracts.git
+$ cd eos-system-contracts
 $ ./build.sh
 ```
 
